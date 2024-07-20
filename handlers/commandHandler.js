@@ -8,6 +8,6 @@ module.exports = (client) => {
 
     for (const file of commandFiles) {
         const command = require(path.join(__dirname, '../commands', file));
-        client.commands.set(command.data?.name || file.split('.')[0], command);
+        client.commands.set(command.data.name, command);
     }
 };

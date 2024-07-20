@@ -5,6 +5,6 @@ module.exports = {
     once: true,
     execute(client) {
         logger.info(`Logged in as ${client.user.tag}!`);
-        client.user.setActivity(`in ${client.guilds.cache.size} servers | /help`, { type: 'PLAYING' });
+        client.user.setActivity(`in ${client.guilds.cache.size} servers | /help`, { type: 'WATCHING' });
     },
 };

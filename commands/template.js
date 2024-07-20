@@ -1,24 +1,19 @@
-const { CommandInteraction, SlashCommandBuilder } = require('discord.js');
 const path = require('path');
 const templatesFilePath = path.join(__dirname, '../templates.json');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('template')
-        .setDescription('Get a predefined server ID for a template')
-        .addStringOption(option =>
-            option.setName('template')
-                .setDescription('Name of the template')
-                .setRequired(true)),
+    data: {
+        name: 'template',
+        description: 'List all available templates and their server IDs'
+    },
     async execute(interaction) {
-        const templateName = interaction.options.getString('template');
         const templates = require('../templates.json');
-        const serverId = templates[templateName];
+        let response = 'Available templates:\n\n';
 
-        if (!serverId) {
-            return interaction.reply('Template not found.');
+        for (const [key, value] of Object.entries(templates)) {
+            response += `**${key}**: ${value}\n`;
         }
 
-        await interaction.reply(`The server ID for the template '${templateName}' is: ${serverId}`);
+        await interaction.reply(response);
     }
 };

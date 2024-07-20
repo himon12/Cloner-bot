@@ -1,25 +1,17 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('help')
-        .setDescription('List all commands'),
+        .setDescription('Provides information about available commands'),
     async execute(interaction) {
-        const commands = [
-            '+ping - Replies with Pong!',
-            '+clone [serverid] - Clone server structure',
-            '/ping - Replies with Pong!',
-            '/clone [serverid] - Clone server structure'
-        ];
-        await interaction.reply(`Available commands:\n${commands.join('\n')}`);
-    },
-    executePrefix(message) {
-        if (message.content.startsWith('+help')) {
-            const commands = [
-                '+ping - Replies with Pong!',
-                '+clone [serverid] - Clone server structure'
-            ];
-            message.channel.send(`Available commands:\n${commands.join('\n')}`);
-        }
+        const commands = interaction.client.commands;
+        let helpMessage = 'Here are the available commands:\n\n';
+
+        commands.forEach((command) => {
+            helpMessage += `**/${command.data.name}**: ${command.data.description}\n`;
+        });
+
+        await interaction.reply(helpMessage);
     }
 };
